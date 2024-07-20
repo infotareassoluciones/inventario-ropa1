@@ -1,0 +1,41 @@
+<div class="container">
+    <div class="row">
+            <table class="table text-center mx-auto">
+                &nbsp;
+                <thead>
+                    <h3 class="text-center text-upercase p-2">LISTA DE PRODUCTOS</h3>
+                    <a href="/productos/add/" class="btn btn-success"><i class="fa-solid fa-pencil">CREAR PRODUCTO</i></a>
+                    <tr class="table-dark">
+                        <th scope="col">NOMBRE</th>
+                        <th scope="col">DESCRIPCION</th>
+                        <th scope="col">PRECIO</th>
+                        <th scope="col">CATEGORIAS</th>
+                        <th scope="col">OPCIONES</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each productos}}
+                        <tr>
+                            <td>{{Nombre}}</td>
+                            <td>{{Descripcion}}</td>
+                            <td>${{Precio}}</td>  
+                            <td>{{Categoria}}</td>
+                             <td><div class="btn-group">
+                                <a href="/productos/edit/{{ProductoID}}" class="btn btn-warning"><i class="fa-solid fa-pencil"></i></a>
+                                <a href="/productos/delete/{{ProductoID}}" class="btn btn-danger" ><i class="fa-solid fa-trash"></i></a>
+                            </div></td>
+                            
+                                                   
+                        </tr>
+                        
+                        
+                    {{/each}}
+                </tbody>
+                <tfoot>
+                    <tr class="table-dark">
+                    </tr>
+                </tfoot>
+            </table>
+            
+    </div>
+</div>
