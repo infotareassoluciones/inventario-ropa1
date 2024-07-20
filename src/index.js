@@ -13,6 +13,8 @@ import dotenv from 'dotenv';
 import categoriasRoutes from './routes/categorias.routes.js';
 import productosRoutes from './routes/productos.routes.js';
 import catalogosRoutes from './routes/catalogos.routes.js';
+import clientesRoutes from './routes/clientes.routes.js';
+
 //Init
 const app = express();
 dotenv.config();
@@ -41,6 +43,7 @@ app.get('/', (req, res)=>{
 app.use(categoriasRoutes);
 app.use(productosRoutes);
 app.use(catalogosRoutes);
+app.use(clientesRoutes);
 //public files
 //run server
 app.listen(app.get('port'), ()=>
