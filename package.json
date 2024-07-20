@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "webpack --config webpack.config.js",
-    "dev": "nodemon src/index.js --exec babel-node"
+    "dev": "nodemon src/index.js"
   },
   "keywords": [],
   "author": "",
