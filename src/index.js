@@ -4,7 +4,6 @@ import {join,dirname, extname} from 'path'
 import { fileURLToPath } from 'url';
 import { engine } from 'express-handlebars';
 import morgan from 'morgan';
-import process from 'process/browser.js';
 // otras importaciones necesarias
 
 // tu código aquí
