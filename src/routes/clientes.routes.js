@@ -23,7 +23,7 @@ router.post('/clientes/add',async(req, res)=>{
             Email,
             Telefono,
             Direccion,
-            Cedula,
+            Cedula
         }
         await pool.query('INSERT INTO Clientes SET ?', [newclientes]);
         res.redirect('/clientes/list');

@@ -48,3 +48,62 @@ CREATE TABLE Inventario (
     Cantidad INT,
     FOREIGN KEY (ProductoID) REFERENCES Productos(ProductoID)
 );
+
+
+
+
+-------
+-- Crear tabla Categorias
+CREATE TABLE IF NOT EXISTS Categorias (
+    CategoriaID INT AUTO_INCREMENT PRIMARY KEY,
+    Nombre VARCHAR(100) NOT NULL
+);
+
+-- Crear tabla Productos
+CREATE TABLE IF NOT EXISTS Productos (
+    ProductoID INT AUTO_INCREMENT PRIMARY KEY,
+    Nombre VARCHAR(100) NOT NULL,
+    CategoriaID INT,
+    Precio DECIMAL(10, 2) NOT NULL,
+    Stock INT NOT NULL,
+    FOREIGN KEY (CategoriaID) REFERENCES Categorias(CategoriaID)
+);
+
+-- Crear tabla Clientes
+CREATE TABLE IF NOT EXISTS Clientes (
+    ClienteID INT AUTO_INCREMENT PRIMARY KEY,
+    Nombre VARCHAR(100) NOT NULL,
+    Apellido VARCHAR(100) NOT NULL,
+    Email VARCHAR(100),
+    Telefono VARCHAR(20) NOT NULL,
+    Direccion VARCHAR(255) NOT NULL,
+    Cedula VARCHAR(20) UNIQUE
+);
+
+-- Crear tabla Ventas
+CREATE TABLE IF NOT EXISTS Ventas (
+    VentaID INT AUTO_INCREMENT PRIMARY KEY,
+    ClienteID INT,
+    Fecha DATETIME NOT NULL,
+    Total DECIMAL(12, 2) NOT NULL,
+    FOREIGN KEY (ClienteID) REFERENCES Clientes(ClienteID)
+);
+
+-- Crear tabla DetallesVentas
+CREATE TABLE IF NOT EXISTS DetallesVentas (
+    DetalleID INT AUTO_INCREMENT PRIMARY KEY,
+    VentaID INT,
+    ProductoID INT,
+    Cantidad INT NOT NULL,
+    PrecioUnitario DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (VentaID) REFERENCES Ventas(VentaID),
+    FOREIGN KEY (ProductoID) REFERENCES Productos(ProductoID)
+);
+
+-- Modificar la columna Cedula en Clientes si ya existe
+ALTER TABLE Clientes
+    MODIFY COLUMN Cedula VARCHAR(20) UNIQUE;
+
+-- Asegurarse de que la columna Total en Ventas es DECIMAL(12, 2)
+ALTER TABLE Ventas
+    MODIFY COLUMN Total DECIMAL(12, 2);

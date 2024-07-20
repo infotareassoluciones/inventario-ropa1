@@ -3,16 +3,13 @@
             <table class="table text-center mx-auto">
                 &nbsp;
                 <thead>
-                    <h3 class="text-center text-upercase p-2">LISTA DE PRODUCTOS</h3>
-                    <a href="/productos/add/" class="btn btn-success"><i class="fa-solid fa-pencil">CREAR PRODUCTO</i></a>
+                    <h3 class="text-center text-upercase p-2">LISTA DE VENTAS</h3>
+                    <a href="/ventas/add/" class="btn btn-success"><i class="fa-solid fa-pencil">CREAR VENTA</i></a>
                     <tr class="table-dark">
-                        <th scope="col">NOMBRE</th>
-                        <th scope="col">DESCRIPCION</th>
-                        <th scope="col">PRECIO</th>
-                        <th scope="col">STOCK</th>
-                        <th scope="col">CATEGORIAS</th>
-                        
-                        <th scope="col">OPCIONES</th>
+                        <th scope="col">CLIENTE</th>
+                        <th scope="col">FECHA</th>
+                        <th scope="col">CANTIDAD DE PRENDAD</th>
+                        <th scope="col">TOTAL</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -21,9 +18,7 @@
                             <td>{{Nombre}}</td>
                             <td>{{Descripcion}}</td>
                             <td>${{Precio}}</td>  
-                            <td>{{Stock}}</td>
                             <td>{{Categoria}}</td>
-                            
                              <td><div class="btn-group">
                                 <a href="/productos/edit/{{ProductoID}}" class="btn btn-warning"><i class="fa-solid fa-pencil"></i></a>
                                 <a href="/productos/delete/{{ProductoID}}" class="btn btn-danger" ><i class="fa-solid fa-trash"></i></a>
