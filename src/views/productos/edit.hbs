@@ -1,0 +1,46 @@
+<div class="container p-4">
+    <div class="row">
+        <div class="col-md-4 mx-auto">
+            <div class="card text-center">
+                <div class="card-header">
+                    <h3 class="text-uppercase">Editar Producto</h3>
+                </div>
+                <div class="card-body">
+                    <form action="/productos/edit/{{productos.ProductoID}}" method="post" >
+                        <div class="input-group mt-2">
+                            <label for="Nombre" class="input-group-text">Nombre</label>
+                            <input class="form-control" type="text" name="Nombre" id="Nombre" value="{{productos.Nombre}}" required>
+                        </div>
+                        <div class="input-group mt-2">
+                            <label for="Descripcion" class="input-group-text">Descripción</label>
+                            <input class="form-control" type="text" name="Descripcion" id="Descripcion" value="{{productos.Descripcion}}" required>
+                        </div>
+                        <div class="input-group mt-2">
+                            <label for="Precio" class="input-group-text">Precio</label>
+                            <input class="form-control" type="number" name="Precio" id="Precio" value="{{productos.Precio}}" required>
+                        </div>
+                        <div class="input-group mt-2">
+                            <label for="Categoria" class="input-group-text">Categoría</label>
+                            <select class="form-control" name="CategoriaID" id="CategoriaID" >
+                                {{#each categorias}}
+                                    <option value="{{this.CategoriaID}}" {{this.selected}}>{{this.Nombre}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+                        <div class="input-group mt-2">
+                            <label for="Stock" class="input-group-text">Stock</label>
+                            <input class="form-control" type="number" name="Stock" id="Stock" value="{{productos.Stock}}"  required>
+                        </div>
+                        <div class="input-group mt-2">
+                            <label for="Imagen" class="input-group-text">Imagen</label>
+                            <input class="form-control" type="file" name="Imagen" id="Imagen" accept="image/*" >
+                        </div>
+                        <div class="form-group mt-4 d-grid gap-2">
+                            <button class="btn btn-success">Guardar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
