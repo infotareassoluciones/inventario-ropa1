@@ -9,7 +9,7 @@ router.get('/productos/list',async(req, res)=>{
     try {
         const [productos] = await pool.query('SELECT ProductoID, p.Nombre, p.Descripcion, p.Precio, p.Stock, c.Nombre AS Categoria FROM Productos p INNER JOIN Categorias c ON p.CategoriaID = c.CategoriaID ORDER BY p.Nombre ASC ');
         res.render('../views/productos/list.hbs',{productos:productos} );
-        console.log(productos);
+       
     } catch (err) {
         res.status(500).json({message:err.message});
     }
@@ -37,7 +37,7 @@ router.post('/productos/add', upload.single('Imagen'), async (req, res) => {
             'INSERT INTO Productos (Nombre, Descripcion, Precio, CategoriaID, Imagen, Stock) VALUES (?, ?, ?, ?, ?, ?)',
             [Nombre, Descripcion, Precio, Categoria, imagenBuffer, Stock]
         );
-
+        
         res.redirect('/productos/list');
     } catch (err) {
         res.status(500).json({ message: err.message });
@@ -67,10 +67,9 @@ router.post('/productos/edit/:ProductoID',upload.single('Imagen'), async (req, r
     try {
         const imagenBuffer = req.file ? req.file.buffer : null;
         const { ProductoID } = req.params;
-        const {Imagen} = req.body;
         const { Nombre, Descripcion, Precio, CategoriaID, Stock } = req.body;
         var productoActualizado ={};
-        if(Imagen == null){
+        if(!imagenBuffer ){
             productoActualizado = {
                 Nombre,
                 Descripcion,
@@ -85,9 +84,11 @@ router.post('/productos/edit/:ProductoID',upload.single('Imagen'), async (req, r
                 Nombre,
                 Descripcion,
                 Precio,
-                CategoriaID,
+                imagenBuffer,
                 Stock,
-                Imagen :Imagen
+                CategoriaID
+                
+                
 
             }
         );
