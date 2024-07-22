@@ -26,7 +26,7 @@
                             <td>
                             <div class="btn-group">
                                 <a href="/clientes/edit/{{ClienteID}}" class="btn btn-warning"><i class="fa-solid fa-pencil"></i></a>
-                                <a href="/clientes/list" class="btn btn-danger" onclick="event.preventDefault(); if(confirm('¿Estás seguro de que deseas eliminar este cliente?')) { window.location.href='/categorias/delete/{{ClienteID}}'; }"><i class="fa-solid fa-trash"></i></a>
+                                <a href="/clientes/edit/{{ClienteID}}" class="btn btn-danger" onclick="event.preventDefault(); if(confirm('¿Estás seguro de que deseas eliminar este cliente?')) { window.location.href='/clientes/delete/{{ClienteID}}'; }"><i class="fa-solid fa-trash"></i></a>
 
                             </div>
                             </td>                          

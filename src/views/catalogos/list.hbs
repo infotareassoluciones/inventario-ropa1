@@ -1,25 +1,30 @@
 <div class="container">
     <div class="row mx-auto">
-            <table class="table mx-auto">
-                <thead>
-                    <h3 class="text-center text-upercase">CATALOGO</h3>
-                </thead>
-                <tbody>
+        <table class="table mx-auto">
+            <thead>
+                <h3 class="text-center text-uppercase">CATALOGO</h3>
+            </thead>
+            <tbody>
+                {{#if catalogos}}
                     {{#each catalogos}}
                         <tr>
                             <div class="card text-center center-align mt-2 text-bg-" style="width: 15rem;">
-                            <img src="{{Imagen}}" class="card-img-top" alt="Cargando..."style="width: 100%;height:150px;display:block;">
-                            <h5 class="card-title">{{Nombre}}</h5>
-                            <p class="card-text">{{Descripcion}} <br>
-                            {{Precio}}
-                            </p>
-                      </div>  
-                                   
+                                <img src="{{Imagen}}" class="card-img-top" alt="Cargando..." style="width: 100%; height: 150px; display: block;">
+                                <h5 class="card-title">{{Nombre}}</h5>
+                                <p class="card-text">{{Descripcion}} <br> {{Precio}}</p>
+                            </div>
                         </tr>
                         <tr></tr>
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     {{/each}}
-                </tbody>
-            </table>
+                {{else}}
+                    <h3 class="text-center text-uppercase">NO EXISTEN PRODUCTOS</h3>
+                    <a href="/productos/add/" class="btn btn-success">
+                        <i class="fa-solid fa-pencil">CREAR PRODUCTO</i>
+                    </a>
+                {{/if}}
+            </tbody>
+        </table>
     </div>
 </div>
+

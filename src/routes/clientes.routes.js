@@ -34,13 +34,13 @@ router.post('/clientes/add',async(req, res)=>{
 })
 
 
-router.get('/categorias/edit/:CategoriaID',async(req, res)=>{
+router.get('/clientes/edit/:ClienteID',async(req, res)=>{
 try {
-    const{CategoriaID} = req.params;
-    const [categorias] = await pool.query('SELECT * FROM Categorias where CategoriaID = ?', [CategoriaID]);
-    const categoriaEdit = categorias[0];
-    res.render('../views/categorias/edit.hbs', {categorias: categoriaEdit});
-    console.log(categorias);
+    const{ClienteID} = req.params;
+    const [clientes] = await pool.query('SELECT * FROM Clientes where ClienteID = ?', [ClienteID]);
+    const clientesEdit = clientes[0];
+    res.render('../views/categorias/edit.hbs', {categorias: clientesEdit});
+    console.log(clientes);
 } catch (err) {
     res.status(500).json({message:err.message});
 }
@@ -57,11 +57,11 @@ router.post('/categorias/edit/:CategoriaID',async(req, res)=>{
         res.status(500).json({message:err.message});
     }
     });
-router.get('/categorias/delete/:CategoriaID',async(req, res)=>{
+router.get('/clientes/delete/:ClienteID',async(req, res)=>{
         try {
-            const {CategoriaID} = req.params;
-            await pool.query('DELETE FROM Categorias WHERE CategoriaID = ?', [CategoriaID]);
-            res.redirect('/categorias/list');
+            const {ClienteID} = req.params;
+            await pool.query('DELETE FROM Clientes WHERE ClienteID = ?', [ClienteID]);
+            res.redirect('/clientes/list');
             
         } catch (err) {
             res.status(500).json({message:err.message});

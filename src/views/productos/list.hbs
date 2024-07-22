@@ -26,7 +26,8 @@
                             
                              <td><div class="btn-group">
                                 <a href="/productos/edit/{{ProductoID}}" class="btn btn-warning"><i class="fa-solid fa-pencil"></i></a>
-                                <a href="/productos/delete/{{ProductoID}}" class="btn btn-danger" ><i class="fa-solid fa-trash"></i></a>
+                                <a href="/productos/list" class="btn btn-danger" onclick="event.preventDefault(); if(confirm('¿Estás seguro de que deseas eliminar este Producto?')) { window.location.href='/productos/delete/{{ProductoID}}'; }"><i class="fa-solid fa-trash"></i></a>
+
                             </div></td>
                             
                                                    

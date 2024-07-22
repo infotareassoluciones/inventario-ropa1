@@ -6,7 +6,7 @@
                     <h3 class="text-uppercase">Editar Producto</h3>
                 </div>
                 <div class="card-body">
-                    <form action="/productos/edit/{{productos.ProductoID}}" method="post" >
+                    <form action="/productos/edit/{{productos.ProductoID}}" method="post" enctype="multipart/form-data">
                         <div class="input-group mt-2">
                             <label for="Nombre" class="input-group-text">Nombre</label>
                             <input class="form-control" type="text" name="Nombre" id="Nombre" value="{{productos.Nombre}}" required>
@@ -21,7 +21,7 @@
                         </div>
                         <div class="input-group mt-2">
                             <label for="Categoria" class="input-group-text">Categoría</label>
-                            <select class="form-control" name="CategoriaID" id="CategoriaID" >
+                            <select class="form-control" name="CategoriaID" id="CategoriaID">
                                 {{#each categorias}}
                                     <option value="{{this.CategoriaID}}" {{this.selected}}>{{this.Nombre}}</option>
                                 {{/each}}
@@ -29,11 +29,11 @@
                         </div>
                         <div class="input-group mt-2">
                             <label for="Stock" class="input-group-text">Stock</label>
-                            <input class="form-control" type="number" name="Stock" id="Stock" value="{{productos.Stock}}"  required>
+                            <input class="form-control" type="number" name="Stock" id="Stock" value="{{productos.Stock}}" required>
                         </div>
                         <div class="input-group mt-2">
-                            <label for="imagenBuffer" class="input-group-text">Imagen</label>
-                            <input class="form-control" type="file" name="imagenBuffer" id="imagenBuffer" accept="image/*" >
+                            <label for="Imagen" class="input-group-text">Imagen</label>
+                            <input class="form-control" type="file" name="Imagen" id="Imagen" accept="image/*">
                         </div>
                         <div class="form-group mt-4 d-grid gap-2">
                             <button class="btn btn-success">Guardar</button>

@@ -37,7 +37,7 @@ router.post('/productos/add', upload.single('Imagen'), async (req, res) => {
             'INSERT INTO Productos (Nombre, Descripcion, Precio, CategoriaID, Imagen, Stock) VALUES (?, ?, ?, ?, ?, ?)',
             [Nombre, Descripcion, Precio, Categoria, imagenBuffer, Stock]
         );
-        
+        console.log(imagenBuffer);
         res.redirect('/productos/list');
     } catch (err) {
         res.status(500).json({ message: err.message });
@@ -51,52 +51,59 @@ router.get('/productos/edit/:ProductoID', async (req, res) => {
         const [productos] = await pool.query('SELECT ProductoID, Nombre, Descripcion, Precio, Imagen, Stock, CategoriaID FROM Productos WHERE ProductoID = ?', [ProductoID]);
         const productosEdit = productos[0];
 
-        const categoriasProcesadas = categorias.map(categoria => ({
+        // Marcar la categoría seleccionada
+        const categoriasActualizadas = categorias.map(categoria => ({
             ...categoria,
             selected: categoria.CategoriaID === productosEdit.CategoriaID ? 'selected' : ''
         }));
 
-        res.render('../views/productos/edit.hbs', { productos: productosEdit, categorias: categoriasProcesadas });
+        res.render('../views/productos/edit.hbs', { productos: productosEdit, categorias: categoriasActualizadas });
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
 });
 
-    
-router.post('/productos/edit/:ProductoID',upload.single('Imagen'), async (req, res) => {
+   
+router.post('/productos/edit/:ProductoID', upload.single('Imagen'), async (req, res) => {
     try {
-        const imagenBuffer = req.file ? req.file.buffer : null;
         const { ProductoID } = req.params;
         const { Nombre, Descripcion, Precio, CategoriaID, Stock } = req.body;
-        var productoActualizado ={};
-        if(!imagenBuffer ){
+        const imagenBuffer = req.file ? req.file.buffer : null;
+
+        // Obtener la imagen actual del producto de la base de datos
+        const [productoExistente] = await pool.query('SELECT Imagen FROM Productos WHERE ProductoID = ?', [ProductoID]);
+        const imagenActual = productoExistente[0].Imagen;
+
+        let imagenBase64 = imagenActual;
+        var productoActualizado = {};
+
+        // Si hay una nueva imagen, conviértela a Base64
+        if (req.file) {
             productoActualizado = {
                 Nombre,
                 Descripcion,
                 Precio,
                 CategoriaID,
                 Stock,
-            
-
-            }
-        }else(
+                Imagen:imagenBuffer
+            };
+            await pool.query('UPDATE Productos SET ? WHERE ProductoID = ?', [productoActualizado, ProductoID]);
+        }else{
              productoActualizado = {
                 Nombre,
                 Descripcion,
                 Precio,
-                imagenBuffer,
+                CategoriaID,
                 Stock,
-                CategoriaID
-                
-                
+                Imagen: imagenActual
+            };
+            await pool.query('UPDATE Productos SET ? WHERE ProductoID = ?', [productoActualizado, ProductoID]);
+        }
 
-            }
-        );
+        
 
-        // Actualiza el producto en la base de datos
-        await pool.query('UPDATE Productos SET ? WHERE ProductoID = ?', [productoActualizado, ProductoID]);
+        
         console.log(productoActualizado);
-        // Redirige al usuario a la lista de productos o a otra página
         res.redirect('/productos/list');
     } catch (err) {
         res.status(500).json({ message: err.message });
@@ -106,12 +113,11 @@ router.post('/productos/edit/:ProductoID',upload.single('Imagen'), async (req, r
 
 
 
-
-    router.get('/categorias/delete/:CategoriaID',async(req, res)=>{
+    router.get('/productos/delete/:ProductoID',async(req, res)=>{
             try {
-                const {CategoriaID} = req.params;
-                await pool.query('DELETE FROM Categorias WHERE CategoriaID = ?', [CategoriaID]);
-                res.redirect('/categorias/list');
+                const {ProductoID} = req.params;
+                await pool.query('DELETE FROM Productos WHERE ProductoID = ?', [ProductoID]);
+                res.redirect('/productos/list');
                 
             } catch (err) {
                 res.status(500).json({message:err.message});
