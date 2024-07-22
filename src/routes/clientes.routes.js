@@ -5,7 +5,7 @@ const router = Router();
 
 router.get('/clientes/list',async(req, res)=>{
     try {
-        const [clientes] = await pool.query('SELECT * FROM Clientes order by Nombre asc');
+        const [clientes] = await pool.query('SELECT * FROM Clientes order by Apellido asc');
         res.render('../views/clientes/list.hbs',{clientes:clientes} );
         console.log(clientes);
     } catch (err) {
@@ -17,9 +17,10 @@ router.get('/clientes/add', (req, res)=>{
 });
 router.post('/clientes/add',async(req, res)=>{
     try {
-        const {Nombre, Email, Telefono, Direccion, Cedula} = req.body;
+        const {Nombre, Apellido, Email, Telefono, Direccion, Cedula} = req.body;
         const newclientes ={
             Nombre,
+            Apellido,
             Email,
             Telefono,
             Direccion,
@@ -39,20 +40,20 @@ try {
     const{ClienteID} = req.params;
     const [clientes] = await pool.query('SELECT * FROM Clientes where ClienteID = ?', [ClienteID]);
     const clientesEdit = clientes[0];
-    res.render('../views/categorias/edit.hbs', {categorias: clientesEdit});
+    res.render('../views/clientes/edit.hbs', {clientes: clientesEdit});
     console.log(clientes);
 } catch (err) {
     res.status(500).json({message:err.message});
 }
 });
-router.post('/categorias/edit/:CategoriaID',async(req, res)=>{
+router.post('/clientes/edit/:ClienteID',async(req, res)=>{
     try {
-        const {Nombre}= req.body;
-        const{CategoriaID} = req.params;
-        const editcategoria = {Nombre};
-        await pool.query('UPDATE Categorias SET ? WHERE CategoriaID = ?', [editcategoria, CategoriaID]);
-        console.log(editcategoria);
-        res.redirect('/categorias/list');
+        const {Nombre, Apellido, Direccion, Cedula, Email, Telefono}= req.body;
+        const{ClienteID} = req.params;
+        const editclientes = {Nombre, Apellido, Direccion, Cedula, Email, Telefono};
+        await pool.query('UPDATE Clientes SET ? WHERE ClienteID = ?', [editclientes, ClienteID]);
+        console.log(editclientes);
+        res.redirect('/clientes/list');
     } catch (err) {
         res.status(500).json({message:err.message});
     }

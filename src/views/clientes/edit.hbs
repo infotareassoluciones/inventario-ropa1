@@ -8,9 +8,34 @@
                 <div class="card-body">
                     <form action="/clientes/edit/{{clientes.ClienteID}}" method="post">
                     <div class="input-group mt-2">
-                        <label for="Nombre" class="input-group-text">Nombre de Categoria</label>
+                        <label for="Nombre" class="input-group-text">Nombre de Cliente</label>
                         <input 
                         class="form-control"type="text" name="Nombre" id="Nombre" value="{{clientes.Nombre}}" required>
+                    </div>
+                    <div class="input-group mt-2">
+                        <label for="Apellido" class="input-group-text">Apellido</label>
+                    <input 
+                        class="form-control"type="text" name="Apellido" id="Apellido" value="{{clientes.Apellido}}" required>
+                    </div>
+                    <div class="input-group mt-2">
+                        <label for="Email" class="input-group-text">Email</label>
+                    <input 
+                        class="form-control"type="mail" name="Email" id="Email" value="{{clientes.Email}}" required>
+                    </div>
+                    <div class="input-group mt-2">
+                        <label for="Telefono" class="input-group-text">Telefono</label>
+                    <input 
+                        class="form-control"type="numer" name="Telefono" id="Telefono" value="{{clientes.Telefono}}" required>
+                    </div>
+                    <div class="input-group mt-2">
+                        <label for="Direccion" class="input-group-text">Direccion</label>
+                    <input 
+                        class="form-control"type="text" name="Direccion" id="Direccion" value="{{clientes.Direccion}}" required>
+                    </div>
+                    <div class="input-group mt-2">
+                        <label for="Cedula" class="input-group-text">Cedula</label>
+                    <input 
+                        class="form-control"type="number" name="Cedula" id="Cedula" value="{{clientes.Cedula}}" required>
                     </div>
                     <div class="form-group mt-4 d-grid gap-2">
                         <button class="btn btn-success">ACTUALIZAR</button>
