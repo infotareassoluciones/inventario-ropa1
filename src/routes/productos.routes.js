@@ -10,7 +10,27 @@ router.get('/productos/list',async(req, res)=>{
     } catch (err) {
         res.status(500).json({message:err.message});
     }
+});// Ruta para ver los detalles del producto
+router.get('/productos/view/:ProductoID', async (req, res) => {
+    try {
+        const { ProductoID } = req.params;
+        const [producto] = await pool.query(
+            'SELECT p.ProductoID, p.Descripcion, p.Precio, p.Imagen, p.Stock, p.Talla, c.Nombre AS Categoria, pr.Nombre AS PrendaNombre FROM Productos p INNER JOIN Categorias c ON p.CategoriaID = c.CategoriaID INNER JOIN Prendas pr ON p.PrendaID = pr.PrendaID WHERE p.ProductoID = ?',
+            [ProductoID]
+        );
+        producto.forEach(producto => {
+            if (producto.Imagen) {
+                producto.Imagen = `data:image/jpeg;base64,${producto.Imagen.toString('base64')}`;
+            }
+        });
+        res.render('../views/productos/view.hbs', { producto: producto });
+        console.log(producto.Imagen);
+        
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
 });
+
 
 router.get('/productos/add', async (req, res) => {
     try {
