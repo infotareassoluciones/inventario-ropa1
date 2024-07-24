@@ -6,10 +6,11 @@
                     <h3 class="text-center text-upercase p-2">LISTA DE PRODUCTOS</h3>
                     <a href="/productos/add/" class="btn btn-success"><i class="fa-solid fa-pencil">CREAR PRODUCTO</i></a>
                     <tr class="table-dark">
-                        <th scope="col">NOMBRE</th>
+                        <th scope="col">Prenda</th>
                         <th scope="col">DESCRIPCION</th>
                         <th scope="col">PRECIO</th>
                         <th scope="col">STOCK</th>
+                        <th scope="col">TALLA</th>
                         <th scope="col">CATEGORIAS</th>
                         
                         <th scope="col">OPCIONES</th>
@@ -18,10 +19,11 @@
                 <tbody>
                     {{#each productos}}
                         <tr>
-                            <td>{{Nombre}}</td>
+                            <td>{{PrendaNombre}}</td>
                             <td>{{Descripcion}}</td>
                             <td>${{Precio}}</td>  
                             <td>{{Stock}}</td>
+                            <td>{{Talla}}</td>
                             <td>{{Categoria}}</td>
                             
                              <td><div class="btn-group">

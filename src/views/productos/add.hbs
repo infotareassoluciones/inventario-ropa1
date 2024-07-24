@@ -8,8 +8,12 @@
                 <div class="card-body">
                     <form action="/productos/add" method="post" enctype="multipart/form-data">
                         <div class="input-group mt-2">
-                            <label for="Nombre" class="input-group-text">Nombre</label>
-                            <input class="form-control" type="text" name="Nombre" id="Nombre" required>
+                            <label for="PrendaID" class="input-group-text">Prenda</label>
+                            <select class="form-control" name="PrendaID" id="PrendaID" required>
+                                {{#each prendas}}
+                                    <option value="{{this.PrendaID}}">{{this.Nombre}}</option>
+                                {{/each}}
+                            </select>
                         </div>
                         <div class="input-group mt-2">
                             <label for="Descripcion" class="input-group-text">Descripción</label>
@@ -26,6 +30,10 @@
                                     <option value="{{this.CategoriaID}}">{{this.Nombre}}</option>
                                 {{/each}}
                             </select>
+                        </div>
+                        <div class="input-group mt-2">
+                            <label for="Talla" class="input-group-text">Talla</label>
+                            <input class="form-control" type="text" name="Talla" id="Talla" required>
                         </div>
                         <div class="input-group mt-2">
                             <label for="Stock" class="input-group-text">Stock</label>
