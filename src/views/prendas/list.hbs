@@ -1,0 +1,53 @@
+<div class="container">
+    <div class="row">
+            <table class="table text-center mx-auto">
+                &nbsp;
+                <div class="card text-center">
+                <div class="card-header">
+                    <h3 class="text-uppercase">CREAR PRENDA</h3>
+                </div>
+                <div class="card-body">
+                    <form action="/prendas/add" method="post">
+                    <div class="input-group mt-2">
+                        <label for="Nombre" class="input-group-text">Nombre de Prenda</label>
+                        <input 
+                        class="form-control"type="text" name="Nombre" id="Nombre" placeholder="Ejm:Camisa" autofocus required>
+                        <button class="btn btn-success">CREAR </button>
+                    </div>
+                    </div>
+                    </form>
+                </div>
+            </div>
+             <br>
+                <thead>
+                    <h3 class="text-center text-upercase p-2">LISTA DE PRENDAS</h3>
+                    <tr class="table-dark">
+                        <th scope="col">Prendas</th>
+                        <th scope="col">Opciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each prendas}}
+                        <tr>
+                            <td>{{Nombre}}</td>   
+                            <td>
+                            <div class="btn-group">
+                                <a href="/prendas/edit/{{PrendaID}}" class="btn btn-warning"><i class="fa-solid fa-pencil"></i></a>
+                                <a href="/prendas/list" class="btn btn-danger" onclick="event.preventDefault(); if(confirm('¿Estás seguro de que deseas eliminar esta prenda?')) { window.location.href='/prendas/delete/{{PrendaID}}'; }"><i class="fa-solid fa-trash"></i></a>
+
+                            </div>
+                            </td>                          
+                        </tr>
+                        
+                        
+                    {{/each}}
+                </tbody>
+                <tfoot>
+                    <tr class="table-dark">
+                        <td colspan="4">REGISTRO DE CATEGORIAS</td>
+                    </tr>
+                </tfoot>
+            </table>
+            
+    </div>
+</div>

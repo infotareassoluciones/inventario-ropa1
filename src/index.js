@@ -14,6 +14,7 @@ import categoriasRoutes from './routes/categorias.routes.js';
 import productosRoutes from './routes/productos.routes.js';
 import catalogosRoutes from './routes/catalogos.routes.js';
 import clientesRoutes from './routes/clientes.routes.js';
+import prendasRoutes from './routes/prendas.routes.js';
 
 //Init
 const app = express();
@@ -44,6 +45,7 @@ app.use(categoriasRoutes);
 app.use(productosRoutes);
 app.use(catalogosRoutes);
 app.use(clientesRoutes);
+app.use(prendasRoutes);
 //public files
 //run server
 app.listen(app.get('port'), ()=>
