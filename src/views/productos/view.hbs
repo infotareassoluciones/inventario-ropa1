@@ -8,9 +8,10 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <div class="container mt-4">
+    <div class="container mt-4 text-center" >
         <div class="row">
             <div class="col-md-6 mx-auto">
+                {{#each producto}}
                 <div class="card">
                     <!-- Imagen del producto -->
                     <img src="{{Imagen}}" class="card-img-top" alt="Imagen del producto" style="height: 300px; object-fit: cover;">
@@ -18,20 +19,18 @@
                         <!-- Nombre del producto -->
                         <h5 class="card-title">{{PrendaNombre}}</h5>
                         <!-- Descripción del producto -->
-                        <p class="card-text"><strong>Descripción:</strong> {{Descripcion}}</p>
-                        <!-- Precio del producto -->
-                        <p class="card-text"><strong>Precio:</strong> ${{Precio}}</p>
-                        <!-- Stock del producto -->
-                        <p class="card-text"><strong>Stock:</strong> {{Stock}}</p>
-                        <!-- Talla del producto -->
-                        <p class="card-text"><strong>Talla:</strong> {{Talla}}</p>
-                        <!-- Categoría del producto -->
-                        <p class="card-text"><strong>Categoría:</strong> {{Categoria}}</p>
-                        <!-- Botón de regreso -->
+                        <p class="card-text"><strong>Descripción:</strong> {{Descripcion}} <br>
+                        <strong>Precio:</strong> ${{Precio}} <br>
+                        <strong>Stock:</strong> {{Stock}} <br>
+                        <strong>Talla:</strong> {{Talla}} <br>
+                        <strong>Categoría:</strong> {{Categoria}}
+                        </p>
                         <a href="/productos/list" class="btn btn-primary">Regresar</a>
                     </div>
                 </div>
+                
             </div>
+            {{/each}}
         </div>
     </div>
 

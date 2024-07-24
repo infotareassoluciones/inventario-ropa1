@@ -5,28 +5,37 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
-      <ul class="navbar-nav" style="margin-left: auto;">
+      <ul class="navbar-nav ms-auto">
         <li class="nav-item">
-          <a class="nav-link"href="/categorias/list">CATEGORIAS</a>
+          <a class="nav-link" href="/productos/list">INVENTARIO</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/productos/list">PRODUCTOS</a>
+          <a class="nav-link" href="/vender/add">VENDER</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/clientes/list">CLIENTES</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/prendas/list">PRENDAS</a>
+          <a class="nav-link" href="/vender/list">VENTAS</a>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Perfil
+            CREAR
           </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="/">Datos</a></li>
-            <li><a class="dropdown-item" href="#">Configuración</a></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item" href="/clientes/list">CLIENTES</a></li>
+            <li><a class="dropdown-item" href="/prendas/list">PRENDAS</a></li>
+            <li><a class="dropdown-item" href="/categorias/list">CATEGORIAS</a></li>
           </ul>
+          
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            PERFIL
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="nav-link disabled" aria-disabled="true"href="/clientes/list">Editar</a></li>
+            <li><a class="nav-link disabled" aria-disabled="true" href="/prendas/list">Cerrar Sesión<a></li>
+            <li><a class="nav-link disabled" aria-disabled="true"href="/categorias/list">CATEGORIAS</a></li>
+          </ul>
+          
         </li>
       </ul>
     </div>

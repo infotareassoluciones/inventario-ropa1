@@ -24,7 +24,7 @@ router.get('/productos/view/:ProductoID', async (req, res) => {
             }
         });
         res.render('../views/productos/view.hbs', { producto: producto });
-        console.log(producto.Imagen);
+        console.log(producto);
         
     } catch (err) {
         res.status(500).json({ message: err.message });
