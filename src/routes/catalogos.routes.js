@@ -8,6 +8,7 @@ router.get('/catalogos/list', async (req, res) => {
     try {
         const [catalogos] = await pool.query(
             'SELECT p.Descripcion, p.Precio, p.Imagen, p.Stock, p.Talla, c.Nombre AS Categoria, pr.Nombre AS PrendaNombre FROM Productos p INNER JOIN Categorias c ON p.CategoriaID = c.CategoriaID INNER JOIN Prendas pr ON p.PrendaID = pr.PrendaID ORDER BY pr.Nombre ASC;'
+            
         );
 
         // Convierte los datos de la imagen a base64
