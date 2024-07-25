@@ -3,39 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catálogo de Productos</title>
+    <title>Reporte de Ventas</title>
     <!-- Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
     <div class="container mt-4">
         <div class="row">
-            {{#if catalogos}}
-                {{#each catalogos}}
-                    <div class="col-md-4 mb-4 text-center" >
-                        <div class="card">
-                            <img src="{{Imagen}}" class="card-img-top" alt="Imagen del producto" style="height: 200px; object-fit: cover;">
-                            <div class="card-body">
-                                <h5 class="card-title">{{PrendaNombre}}</h5>
-                                <p class="card-text">{{Descripcion}} <br>{{Talla}} <br> ${{Precio}} <br>{{Stock}}</p>
-                                <!-- Enlace a la vista previa del producto -->
-                                <a href="/productos/view/{{ProductoID}}" class="btn btn-primary">Ver Detalles</a>
-                            </div>
-                        </div>
+            <table class="table text-center mx-auto">
+                &nbsp;
+                <div class="card text-center">
+                    <div class="card-header">
+                        <h3 class="text-uppercase">REPORTE DE VENTAS</h3>
                     </div>
-                {{/each}}
-            {{else}}
-                <h3 class="text-center text-uppercase">NO EXISTEN PRODUCTOS</h3>
-                <a href="/productos/add/" class="btn btn-success">
-                    <i class="fa-solid fa-pencil">CREAR PRODUCTO</i>
-                </a>
-            {{/if}}
+                </div>
+                <br>
+                <thead>
+                    <h3 class="text-center text-uppercase p-2">LISTA DE VENTAS</h3>
+                    <tr class="table-dark">
+                        <th scope="col">Cliente ID</th>
+                        <th scope="col">Nombre del Cliente</th>
+                        <th scope="col">Fecha de Venta</th>
+                        <th scope="col">Cantidad de Productos</th>
+                        <th scope="col">Total Dinero</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#if ventas}}
+                        {{#each ventas}}
+                            <tr>
+                                <td>{{ClienteID}}</td>
+                                <td>{{ClienteNombre}}</td>
+                                <td>{{FechaVentas}}</td>
+                                <td>{{CantidadProductos}}</td>
+                                <td>${{TotalDinero.toFixed(2)}}</td>
+                            </tr>
+                        {{/each}}
+                    {{else}}
+                        <tr>
+                            <td colspan="5">
+                                <h3 class="text-center text-uppercase">No hay ventas registradas</h3>
+                            </td>
+                        </tr>
+                    {{/if}}
+                </tbody>
+                <tfoot>
+                    <tr class="table-dark">
+                        <td colspan="5">REGISTRO DE VENTAS</td>
+                    </tr>
+                </tfoot>
+            </table>
         </div>
     </div>
 
-    <!-- Bootstrap JS y dependencias -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

@@ -1,0 +1,13 @@
+/* styles.css */
+.form-control-producto {
+    width: 200%; /* Duplicar el tamaño del campo de producto */
+}
+.form-control-cantidad,
+.form-control-stock {
+    width: 50%; /* Reducir a la mitad el tamaño de stock y cantidad */
+}
+.form-control-stock {
+    background-color: #f8f9fa; /* Color de fondo para distinguirlo */
+    border: 1px solid #ced4da; /* Borde para el campo de stock */
+    pointer-events: none; /* Desactiva la interacción con el campo de stock */
+}

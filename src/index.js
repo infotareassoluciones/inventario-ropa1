@@ -15,13 +15,12 @@ import productosRoutes from './routes/productos.routes.js';
 import catalogosRoutes from './routes/catalogos.routes.js';
 import clientesRoutes from './routes/clientes.routes.js';
 import prendasRoutes from './routes/prendas.routes.js';
-
+import ventasRoutes from './routes/ventas.routes.js';
 //Init
 const app = express();
 dotenv.config();
 const __dirname = dirname(fileURLToPath(import.meta.url));
 app.use(express.static(join(__dirname, 'public')));
-
 //config
 const PORT= process.env.PORT;
 app.set('port', process.env.PORT || PORT);
@@ -35,8 +34,9 @@ app.engine('.hbs', engine({
 app.set('view engine', '.hbs');
 //middlewares
 app.use(morgan('dev'));
-app.use(express.urlencoded({extended: false}));
+app.use(express.urlencoded({extended: true}));
 app.use(express.json());
+
 //routes
 app.get('/', (req, res)=>{
     res.render('index');
@@ -46,6 +46,7 @@ app.use(productosRoutes);
 app.use(catalogosRoutes);
 app.use(clientesRoutes);
 app.use(prendasRoutes);
+app.use(ventasRoutes);
 //public files
 //run server
 app.listen(app.get('port'), ()=>

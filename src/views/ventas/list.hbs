@@ -1,40 +1,44 @@
-<div class="container">
-    <div class="row">
-            <table class="table text-center mx-auto">
-                &nbsp;
-                <thead>
-                    <h3 class="text-center text-upercase p-2">LISTA DE VENTAS</h3>
-                    <a href="/ventas/add/" class="btn btn-success"><i class="fa-solid fa-pencil">CREAR VENTA</i></a>
-                    <tr class="table-dark">
-                        <th scope="col">CLIENTE</th>
-                        <th scope="col">FECHA</th>
-                        <th scope="col">CANTIDAD DE PRENDAD</th>
-                        <th scope="col">TOTAL</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {{#each productos}}
-                        <tr>
-                            <td>{{Nombre}}</td>
-                            <td>{{Descripcion}}</td>
-                            <td>${{Precio}}</td>  
-                            <td>{{Categoria}}</td>
-                             <td><div class="btn-group">
-                                <a href="/productos/edit/{{ProductoID}}" class="btn btn-warning"><i class="fa-solid fa-pencil"></i></a>
-                                <a href="/productos/delete/{{ProductoID}}" class="btn btn-danger" ><i class="fa-solid fa-trash"></i></a>
-                            </div></td>
-                            
-                                                   
-                        </tr>
-                        
-                        
-                    {{/each}}
-                </tbody>
-                <tfoot>
-                    <tr class="table-dark">
-                    </tr>
-                </tfoot>
-            </table>
-            
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reporte de Ventas</title>
+    
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-header">
+                <h2 class="text-center">Reporte de Ventas</h2>
+            </div>
+            <div class="card-body">
+                <div class="table-container">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Cliente ID</th>
+                                <th>Nombre del Cliente</th>
+                                <th>Fecha de Venta</th>
+                                <th>Cantidad de Productos</th>
+                                <th>Total Dinero</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each ventas}}
+                                <tr>
+                                    <td>{{this.ClienteID}}</td>
+                                    <td>{{this.ClienteNombre}}</td>
+                                    <td>{{this.FechaVentas}}</td>
+                                    <td>{{this.CantidadProductos}}</td>
+                                    <td>${{this.TotalDinero}}</td>
+                                </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
+</body>
+</html>
