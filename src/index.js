@@ -15,25 +15,35 @@ import prendasRoutes from './routes/prendas.routes.js';
 import ventasRoutes from './routes/ventas.routes.js';
 import loginRoutes from './routes/login.routes.js';
 import registerRoutes from './routes/register.routes.js';
+import fs from 'fs';
 
-const app = express();
+// Inicializar dotenv
 dotenv.config();
+
+// Obtener el directorio actual
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
+// Crear carpeta para sesiones si no existe
+const sessionsDir = join(__dirname, 'sessions');
+if (!fs.existsSync(sessionsDir)) {
+    fs.mkdirSync(sessionsDir);
+}
 
 const FileStore = sessionFileStore(session);
 
+// Configurar express
+const app = express();
+
 app.use(session({
     store: new FileStore({
-        // Configuración opcional para la ruta del directorio de sesiones
-        // Asegúrate de que este directorio exista
-        path: join(__dirname, 'sessions')
+        path: sessionsDir
     }),
     secret: 'mi_clave_secreta',
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: true, maxAge: 1800000 } // Cambia a true si usas HTTPS, maxAge en milisegundos (30 minutos)
+    cookie: { secure: false, maxAge: 1800000 } // Cambia a true si usas HTTPS, maxAge en milisegundos (30 minutos)
 }));
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
 app.set('views', join(__dirname, 'views'));
 app.engine('.hbs', engine({
     defaultLayout: 'main',
@@ -70,3 +80,11 @@ app.get('/', (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+// Middleware de autenticación
+function isAuthenticated(req, res, next) {
+    if (req.session && req.session.user) {
+        return next();
+    }
+    res.redirect('/login');
+}
