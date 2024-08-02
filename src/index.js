@@ -64,7 +64,7 @@ app.use(morgan('dev'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
-
+/*
 // Middleware de autenticación
 function isAuthenticated(req, res, next) {
     if (req.session && req.session.user) {
@@ -72,7 +72,7 @@ function isAuthenticated(req, res, next) {
     }
     res.redirect('/login');
 }
-
+*/
 // Rutas públicas antes del middleware de autenticación
 app.use(loginRoutes);
 app.use(catalogosRoutes);
