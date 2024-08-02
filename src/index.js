@@ -53,7 +53,6 @@ app.use(cookieParser());
 // Rutas públicas
 app.use(catalogosRoutes);
 app.use(loginRoutes);
-app.use(registerRoutes);
 
 app.get('/', (req, res) => {
     res.render('index');
@@ -78,5 +77,6 @@ app.use(clientesRoutes);
 app.use(prendasRoutes);
 app.use(ventasRoutes);
 
+app.use(registerRoutes);
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
