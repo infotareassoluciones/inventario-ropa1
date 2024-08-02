@@ -1,9 +1,9 @@
 import { Router } from "express";
 import pool from '../database.js'
+
+import { isAuthenticated } from '../authMiddleware.js';
 const router = Router();
-import multer from 'multer';
-import { format } from 'date-fns';
-const upload = multer({ storage: multer.memoryStorage() }); // Define el objeto upload
+router.use(isAuthenticated);
 
 
 

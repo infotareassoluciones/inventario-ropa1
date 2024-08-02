@@ -1,7 +1,9 @@
 import { Router } from "express";
 import pool from '../database.js'
 import multer from 'multer';
+import { isAuthenticated } from '../authMiddleware.js';
 const router = Router();
+router.use(isAuthenticated);
 const upload = multer({ storage: multer.memoryStorage() });
 router.get('/productos/list',async(req, res)=>{
     try {

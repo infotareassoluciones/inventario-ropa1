@@ -6,15 +6,26 @@
     <title>Detalles del Producto</title>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .card-img-top {
+            height: auto; /* Permite que la imagen mantenga sus proporciones */
+            max-width: 100%; /* Limita el ancho máximo al 100% del contenedor */
+            object-fit: contain; /* Asegura que la imagen se ajuste dentro del contenedor manteniendo sus proporciones */
+        }
+        .reduced-image {
+            width: 45%; /* Reduce la imagen al 75% del contenedor */
+            margin: 0 auto; /* Centra la imagen horizontalmente */
+        }
+    </style>
 </head>
 <body>
-    <div class="container mt-4 text-center" >
+    <div class="container mt-4 text-center">
         <div class="row">
             <div class="col-md-6 mx-auto">
                 {{#each producto}}
                 <div class="card">
                     <!-- Imagen del producto -->
-                    <img src="{{Imagen}}" class="card-img-top" alt="Imagen del producto" style="height: 300px; object-fit: cover;">
+                    <img src="{{Imagen}}" class="card-img-top reduced-image img-fluid" alt="Imagen del producto">
                     <div class="card-body">
                         <!-- Nombre del producto -->
                         <h5 class="card-title">{{PrendaNombre}}</h5>
@@ -28,9 +39,8 @@
                         <a href="/productos/list" class="btn btn-primary">Regresar</a>
                     </div>
                 </div>
-                
+                {{/each}}
             </div>
-            {{/each}}
         </div>
     </div>
 

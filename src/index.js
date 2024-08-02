@@ -1,14 +1,12 @@
-import express from 'express'
-//import { getDefaultAutoSelectFamilyAttemptTimeout } from 'net';
-import {join,dirname, extname} from 'path'
+// src/app.js
+import express from 'express';
+import session from 'express-session';
+import sessionFileStore from 'session-file-store';
+import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { engine } from 'express-handlebars';
 import morgan from 'morgan';
-// otras importaciones necesarias
-
-// tu código aquí
-
-//import exp from 'constants';
+import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 import categoriasRoutes from './routes/categorias.routes.js';
 import productosRoutes from './routes/productos.routes.js';
@@ -16,38 +14,69 @@ import catalogosRoutes from './routes/catalogos.routes.js';
 import clientesRoutes from './routes/clientes.routes.js';
 import prendasRoutes from './routes/prendas.routes.js';
 import ventasRoutes from './routes/ventas.routes.js';
-//Init
+import loginRoutes from './routes/login.routes.js';
+import registerRoutes from './routes/register.routes.js';
+import { isAuthenticated } from './authMiddleware.js';
+
 const app = express();
 dotenv.config();
+
+const FileStore = sessionFileStore(session);
+
+app.use(session({
+    store: new FileStore(),
+    secret: 'mi_clave_secreta',
+    resave: false,
+    saveUninitialized: false,
+    cookie: { 
+        secure: false, // Cambia a true si usas HTTPS
+        maxAge: 30 * 60 * 1000 // 30 minutos
+    }
+}));
+
 const __dirname = dirname(fileURLToPath(import.meta.url));
-app.use(express.static(join(__dirname, 'public')));
-//config
-const PORT= process.env.PORT;
-app.set('port', process.env.PORT || PORT);
-app.set('views',join (__dirname, 'views'));
+app.set('views', join(__dirname, 'views'));
 app.engine('.hbs', engine({
-    defaulLayout: 'main',
-    layoutsDir: join(app.get('views'),'layouts'),
-    partialsDir: join(app.get('views'),'partials'),
+    defaultLayout: 'main',
+    layoutsDir: join(__dirname, 'views', 'layouts'),
+    partialsDir: join(__dirname, 'views', 'partials'),
     extname: '.hbs'
 }));
 app.set('view engine', '.hbs');
-//middlewares
-app.use(morgan('dev'));
-app.use(express.urlencoded({extended: true}));
-app.use(express.json());
 
-//routes
-app.get('/', (req, res)=>{
+app.use(express.static(join(__dirname, 'public')));
+app.use(morgan('dev'));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(cookieParser());
+
+// Rutas públicas
+app.use(catalogosRoutes);
+app.use(loginRoutes);
+app.use(registerRoutes);
+
+app.get('/', (req, res) => {
     res.render('index');
 });
+
+// Ruta para verificar el estado de la sesión
+app.get('/check-session', (req, res) => {
+    if (req.session.user) {
+        res.json({ active: true });
+    } else {
+        res.json({ active: false });
+    }
+});
+
+// Middleware de autenticación para todas las rutas a continuación
+app.use(isAuthenticated);
+
+// Rutas protegidas
 app.use(categoriasRoutes);
 app.use(productosRoutes);
-app.use(catalogosRoutes);
 app.use(clientesRoutes);
 app.use(prendasRoutes);
 app.use(ventasRoutes);
-//public files
-//run server
-app.listen(app.get('port'), ()=>
-console.log('Server Run on port:', PORT));
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
