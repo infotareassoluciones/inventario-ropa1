@@ -22,7 +22,7 @@
     <div class="container mt-4 text-center">
         <div class="row">
             <div class="col-md-6 mx-auto">
-                {{#each producto}}
+                {{#each catalogo}}
                 <div class="card">
                     <!-- Imagen del producto -->
                     <img src="{{Imagen}}" class="card-img-top reduced-image img-fluid" alt="Imagen del producto">
@@ -36,7 +36,7 @@
                         <strong>Talla:</strong> {{Talla}} <br>
                         <strong>Categoría:</strong> {{Categoria}}
                         </p>
-                        <a href="/productos/list" class="btn btn-primary">Regresar</a>
+                        <a href="/catalogos/list" class="btn btn-primary">Regresar</a>
                     </div>
                 </div>
                 {{/each}}
