@@ -26,7 +26,11 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 // Crear carpeta para sesiones si no existe
 const sessionsDir = join(__dirname, 'sessions');
 if (!fs.existsSync(sessionsDir)) {
-    fs.mkdirSync(sessionsDir);
+    try {
+        fs.mkdirSync(sessionsDir);
+    } catch (error) {
+        console.error('Error creando el directorio de sesiones:', error);
+    }
 }
 
 const FileStore = sessionFileStore(session);
@@ -41,7 +45,7 @@ app.use(session({
     secret: 'mi_clave_secreta',
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: false, maxAge: 1800000 } // Cambia a true si usas HTTPS, maxAge en milisegundos (30 minutos)
+    cookie: { secure: true, maxAge: 1800000 } // Cambia a true si usas HTTPS, maxAge en milisegundos (30 minutos)
 }));
 
 app.set('views', join(__dirname, 'views'));
