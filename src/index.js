@@ -1,4 +1,3 @@
-// src/app.js
 import express from 'express';
 import session from 'express-session';
 import sessionFileStore from 'session-file-store';
@@ -16,7 +15,6 @@ import prendasRoutes from './routes/prendas.routes.js';
 import ventasRoutes from './routes/ventas.routes.js';
 import loginRoutes from './routes/login.routes.js';
 import registerRoutes from './routes/register.routes.js';
-import { isAuthenticated } from './authMiddleware.js';
 
 const app = express();
 dotenv.config();
@@ -24,14 +22,15 @@ dotenv.config();
 const FileStore = sessionFileStore(session);
 
 app.use(session({
-    store: new FileStore(),
+    store: new FileStore({
+        // Configuración opcional para la ruta del directorio de sesiones
+        // Asegúrate de que este directorio exista
+        path: join(__dirname, 'sessions')
+    }),
     secret: 'mi_clave_secreta',
     resave: false,
     saveUninitialized: false,
-    cookie: { 
-        secure: false, // Cambia a true si usas HTTPS
-        maxAge: 30 * 60 * 1000 // 30 minutos
-    }
+    cookie: { secure: false, maxAge: 1800000 } // Cambia a true si usas HTTPS, maxAge en milisegundos (30 minutos)
 }));
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -50,24 +49,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 
-// Rutas públicas
-app.use(catalogosRoutes);
+// Rutas públicas antes del middleware de autenticación
 app.use(loginRoutes);
+app.use(registerRoutes);
+app.use(catalogosRoutes);
 
-app.get('/', (req, res) => {
-    res.render('index');
-});
-
-// Ruta para verificar el estado de la sesión
-app.get('/check-session', (req, res) => {
-    if (req.session.user) {
-        res.json({ active: true });
-    } else {
-        res.json({ active: false });
-    }
-});
-
-// Middleware de autenticación para todas las rutas a continuación
+// Middleware de autenticación para rutas protegidas
 app.use(isAuthenticated);
 
 // Rutas protegidas
@@ -77,6 +64,9 @@ app.use(clientesRoutes);
 app.use(prendasRoutes);
 app.use(ventasRoutes);
 
-app.use(registerRoutes);
+app.get('/', (req, res) => {
+    res.render('index');
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
