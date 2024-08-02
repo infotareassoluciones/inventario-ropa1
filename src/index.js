@@ -26,8 +26,9 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 // Crear carpeta para sesiones si no existe
 const sessionsDir = join(__dirname, 'sessions');
 if (!fs.existsSync(sessionsDir)) {
+    console.log("Creando carpeta de sesiones...");
     try {
-        fs.mkdirSync(sessionsDir);
+        fs.mkdirSync(sessionsDir, { recursive: true });
     } catch (error) {
         console.error('Error creando el directorio de sesiones:', error);
     }
@@ -63,12 +64,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 
-// Rutas públicas
+// Rutas públicas antes del middleware de autenticación
 app.use(loginRoutes);
 app.use(catalogosRoutes);
-app.get('/', (req, res) => {
-    res.render('index');
-});
 
 // Middleware de autenticación para rutas protegidas
 app.use(isAuthenticated);
@@ -81,6 +79,9 @@ app.use(prendasRoutes);
 app.use(ventasRoutes);
 
 app.use(registerRoutes);
+app.get('/', (req, res) => {
+    res.render('index');
+});
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
