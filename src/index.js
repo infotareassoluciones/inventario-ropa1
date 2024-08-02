@@ -78,7 +78,7 @@ app.use(loginRoutes);
 app.use(catalogosRoutes);
 
 // Middleware de autenticación para rutas protegidas
-app.use(isAuthenticated);
+//app.use(isAuthenticated);
 
 // Rutas protegidas
 app.use(categoriasRoutes);
