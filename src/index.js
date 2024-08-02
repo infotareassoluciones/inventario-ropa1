@@ -26,6 +26,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 // Crear carpeta para sesiones si no existe
 const sessionsDir = join(__dirname, 'sessions');
 if (!fs.existsSync(sessionsDir)) {
+    console.log("Carpeta existente");
     try {
         fs.mkdirSync(sessionsDir);
     } catch (error) {
