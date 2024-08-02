@@ -78,7 +78,7 @@ app.use(loginRoutes);
 app.use(catalogosRoutes);
 
 // Middleware de autenticación para rutas protegidas
-//app.use(isAuthenticated);
+
 
 // Rutas protegidas
 app.use(categoriasRoutes);
@@ -91,6 +91,6 @@ app.use(registerRoutes);
 app.get('/', (req, res) => {
     res.render('index');
 });
-
+//app.use(isAuthenticated);
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
