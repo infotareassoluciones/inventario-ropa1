@@ -1,6 +1,6 @@
 // src/routes/protegidas.routes.js
 import { Router } from 'express';
-import { isAuthenticated } from '../authMiddleware.js';
+//import { isAuthenticated } from '../authMiddleware.js';
 
 const router = Router();
 
