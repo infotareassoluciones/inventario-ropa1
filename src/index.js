@@ -25,6 +25,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 // Crear carpeta para sesiones si no existe
 const sessionsDir = join(__dirname, 'sessions');
+
 try {
     if (!fs.existsSync(sessionsDir)) {
         fs.mkdirSync(sessionsDir, { recursive: true });
@@ -46,7 +47,7 @@ app.use(session({
     secret: 'mi_clave_secreta',
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: true, maxAge: 1800000 } // Cambia a true si usas HTTPS, maxAge en milisegundos (30 minutos)
+    cookie: { secure: process.env.NODE_ENV === 'production', maxAge: 1800000 } // Cambia a true si usas HTTPS, maxAge en milisegundos (30 minutos)
 }));
 
 app.set('views', join(__dirname, 'views'));
@@ -64,13 +65,18 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 
+// Middleware de autenticación
+function isAuthenticated(req, res, next) {
+    if (req.session && req.session.user) {
+        return next();
+    }
+    res.redirect('/login');
+}
+
 // Rutas públicas antes del middleware de autenticación
 app.use(loginRoutes);
 app.use(catalogosRoutes);
-app.use(registerRoutes);
-app.get('/', (req, res) => {
-    res.render('index');
-});
+
 // Middleware de autenticación para rutas protegidas
 app.use(isAuthenticated);
 
@@ -81,15 +87,10 @@ app.use(clientesRoutes);
 app.use(prendasRoutes);
 app.use(ventasRoutes);
 
-
+app.use(registerRoutes);
+app.get('/', (req, res) => {
+    res.render('index');
+});
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-
-// Middleware de autenticación
-function isAuthenticated(req, res, next) {
-    if (req.session && req.session.user) {
-        return next();
-    }
-    res.redirect('/login');
-}
