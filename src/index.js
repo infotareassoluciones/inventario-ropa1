@@ -30,7 +30,7 @@ app.use(session({
     secret: 'mi_clave_secreta',
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: false, maxAge: 1800000 } // Cambia a true si usas HTTPS, maxAge en milisegundos (30 minutos)
+    cookie: { secure: true, maxAge: 1800000 } // Cambia a true si usas HTTPS, maxAge en milisegundos (30 minutos)
 }));
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
