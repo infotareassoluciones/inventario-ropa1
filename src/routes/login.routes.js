@@ -22,6 +22,7 @@ router.post('/login', async (req, res) => {
             if (validPassword) {
                 req.session.user = rows[0];
                 res.redirect('/'); // Redirige a la página principal si la autenticación es exitosa
+                console.log("Login correcto:", usuario)
             } else {
                 res.render('login', { error: 'Contraseña incorrecta' });
             }
