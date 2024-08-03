@@ -44,11 +44,11 @@ app.use(session({
         path: sessionsDir,
         logFn: function() {} // Suprimir mensajes de registro
     }),
-    secret: 'mi_clave_secreta',
+    secret: '**.2024.**',
     resave: false,
     saveUninitialized: false,
     cookie: { 
-        secure: false, // Cambia a true si usas HTTPS
+        secure: true, // Cambia a true si usas HTTPS
         maxAge: 30 * 60 * 1000 // 30 minutos
     },
     unset: 'destroy',
