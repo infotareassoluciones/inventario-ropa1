@@ -41,18 +41,16 @@ const app = express();
 
 app.use(session({
     store: new FileStore({
-        path: sessionsDir,
+        path: join(__dirname, 'sessions'),
         logFn: function() {} // Suprimir mensajes de registro
     }),
-    secret: '**.2024.**',
+    secret: 'mi_clave_secreta',
     resave: false,
     saveUninitialized: false,
     cookie: { 
         secure: true, // Cambia a true si usas HTTPS
         maxAge: 30 * 60 * 1000 // 30 minutos
-    },
-    unset: 'destroy',
-    rolling: true
+    }
 }));
 
 app.set('views', join(__dirname, 'views'));
