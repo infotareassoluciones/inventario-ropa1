@@ -1,8 +1,8 @@
 import { Router } from "express";
 import pool from '../database.js'
-import { isAuthenticated } from '../authMiddleware.js';
+//import { isAuthenticated } from '../authMiddleware.js';
 const router = Router();
-router.use(isAuthenticated);
+//router.use(isAuthenticated);
 router.get('/prendas/list',async(req, res)=>{
     try {
         const [result] = await pool.query('SELECT * FROM Prendas order by Nombre asc');

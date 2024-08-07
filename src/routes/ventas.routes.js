@@ -1,77 +1,66 @@
 import { Router } from "express";
-import pool from '../database.js'
+import pool from '../database.js';
 
-import { isAuthenticated } from '../authMiddleware.js';
 const router = Router();
-router.use(isAuthenticated);
-
-
 
 router.get('/ventas/list', async (req, res) => {
     try {
         const [ventas] = await pool.query(`
             SELECT
-    c.ClienteID AS ClienteID,
-    CONCAT(c.Apellido, ' ', c.Nombre) AS ClienteNombre,
-    DATE_FORMAT(v.FechaVenta, '%Y-%m-%d %H:%i:%s') AS FechaVentas,
-    COUNT(dv.ProductoID) AS CantidadProductos,
-    SUM(dv.Cantidad * dv.Precio) AS TotalDinero
-FROM
-    Ventas v
-JOIN
-    Clientes c ON v.ClienteID = c.ClienteID
-JOIN
-    DetalleVentas dv ON v.VentaID = dv.VentaID
-GROUP BY
-    v.VentaID, c.ClienteID, c.Nombre, c.Apellido, v.FechaVenta
-ORDER BY
-    v.FechaVenta DESC;
-
+                c.ClienteID AS ClienteID,
+                CONCAT(c.Apellido, ' ', c.Nombre) AS ClienteNombre,
+                DATE_FORMAT(v.FechaVenta, '%Y-%m-%d %H:%i:%s') AS FechaVentas,
+                COUNT(dv.ProductoID) AS CantidadProductos,
+                SUM(dv.Cantidad * dv.Precio) AS TotalDinero
+            FROM
+                Ventas v
+            JOIN
+                Clientes c ON v.ClienteID = c.ClienteID
+            JOIN
+                DetalleVentas dv ON v.VentaID = dv.VentaID
+            GROUP BY
+                v.VentaID, c.ClienteID, c.Nombre, c.Apellido, v.FechaVenta
+            ORDER BY
+                v.FechaVenta DESC;
         `);
-        res.render('../views/ventas/list.hbs', { ventas});
+        res.render('../views/ventas/list.hbs', { ventas });
     } catch (err) {
         console.error('Error al obtener el reporte de ventas:', err);
         res.status(500).send('Error al obtener el reporte de ventas');
     }
 });
 
-
-// Mostrar formulario para agregar venta
 router.get('/ventas/add', async (req, res) => {
     const [clientes] = await pool.query("SELECT ClienteID, CONCAT(Apellido,' ',Nombre) AS Nombres FROM Clientes");
-    const [productos] = await pool.query("SELECT ProductoID,Stock, Precio, CONCAT(pr.Nombre, ' - ', p.Descripcion, ' - Talla: ', p.Talla) AS ProductoCompleto FROM Productos p INNER JOIN Prendas pr ON p.PrendaID = pr.PrendaID");
+    const [productos] = await pool.query("SELECT ProductoID, Stock, Precio, CONCAT(pr.Nombre, ' - ', p.Descripcion, ' - Talla: ', p.Talla) AS ProductoCompleto FROM Productos p INNER JOIN Prendas pr ON p.PrendaID = pr.PrendaID");
     
     res.render('ventas/add', { clientes, productos });
 });
 
-
 router.post('/ventas/add', async (req, res) => {
     const connection = await pool.getConnection();
     try {
-        const { ClienteID, ProductoID, Cantidad, PrecioUnitario, Total } = req.body;
+        const { ClienteID, FechaVenta, ProductoID, Cantidad, PrecioUnitario, Total } = req.body;
 
         console.log('ClienteID:', ClienteID);
+        console.log('FechaVenta:', FechaVenta);
         console.log('ProductoID:', ProductoID);
         console.log('Cantidad:', Cantidad);
         console.log('PrecioUnitario:', PrecioUnitario);
         console.log('Total:', Total);
 
-        // Verifica que los datos existan y sean arrays
         if (!Array.isArray(ProductoID) || !Array.isArray(Cantidad) || !Array.isArray(PrecioUnitario)) {
             throw new Error('Productos, Cantidad o PrecioUnitario no están en el formato esperado.');
         }
 
-        // Inicia una transacción
         await connection.beginTransaction();
 
-        // Inserta la venta
         const [resultVenta] = await connection.query(
-            'INSERT INTO Ventas (ClienteID, FechaVenta, Total) VALUES (?, NOW(), ?)',
-            [ClienteID, Total]
+            'INSERT INTO Ventas (ClienteID, FechaVenta, Total) VALUES (?, ?, ?)',
+            [ClienteID, FechaVenta, Total]
         );
         const ventaID = resultVenta.insertId;
 
-        // Inserta los detalles de la venta
         const detalles = ProductoID.map((id, index) => [
             ventaID,
             id,
@@ -84,7 +73,6 @@ router.post('/ventas/add', async (req, res) => {
             [detalles]
         );
 
-        // Actualiza el stock
         for (let i = 0; i < ProductoID.length; i++) {
             await connection.query(
                 'UPDATE Productos SET Stock = Stock - ? WHERE ProductoID = ?',
@@ -92,12 +80,10 @@ router.post('/ventas/add', async (req, res) => {
             );
         }
 
-        // Confirma la transacción
         await connection.commit();
         
-        res.redirect('/productos/list');
+        res.redirect('/ventas/list');
     } catch (err) {
-        // Reversa la transacción en caso de error
         await connection.rollback();
         console.error('Error al guardar la venta:', err);
         res.status(500).json({ message: 'Error al guardar la venta' });
@@ -106,11 +92,6 @@ router.post('/ventas/add', async (req, res) => {
     }
 });
 
-
-
-
-
-// Mostrar factura de una venta
 router.get('/ventas/view/:VentaID', async (req, res) => {
     try {
         const { VentaID } = req.params;
@@ -145,6 +126,5 @@ router.get('/ventas/view/:VentaID', async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 });
-
 
 export default router;
